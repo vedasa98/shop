@@ -1,0 +1,40 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class ShoppingCart {
+    private List<CartItem> cartItems;
+
+    public ShoppingCart() {
+        cartItems = new ArrayList<>();
+    }
+
+    public void addProduct(Product product, int quantity) {
+        for (CartItem item : cartItems) {
+            if (item.getProduct().getName().equals(product.getName())) {
+                item.setQuantity(item.getQuantity() + quantity);
+                return;
+            }
+        }
+        cartItems.add(new CartItem(product, quantity));
+    }
+
+    public void removeProduct(String productName) {
+        cartItems.removeIf(item -> item.getProduct().getName().equals(productName));
+    }
+
+    public double calculateTotal() {
+        double total = 0;
+        for (CartItem item : cartItems) {
+            total += item.getTotalPrice();
+        }
+        return total;
+    }
+
+    public void displayCart() {
+        System.out.println("Shopping Cart:");
+        for (CartItem item : cartItems) {
+            System.out.println(item);
+        }
+        System.out.println("Total: $" + calculateTotal());
+    }
+}
